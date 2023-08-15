@@ -18,11 +18,11 @@ debian_install() {
 
 arch_install_package() {
     package=$1
-    if sudo pacman -Qi $package > /dev/null ; then
+    if sudo pacman -Qi "$package" > /dev/null ; then
         echo "$package is already installed"
     else
         echo "Installing $package"
-        sudo pacman -S $package
+        sudo pacman -S "$package"
     fi
 }
 
@@ -50,17 +50,17 @@ python_setup() {
     echo "Now download the Geckodriver"
 }
 
-if [ "$(grep -Ei 'debian|ubuntu|mint' /etc/*release)" ]; then
+if [ grep -qEi 'debian|ubuntu|mint' /etc/*release; then
     debian_install
     python_setup
 fi
 
-if [ "$(grep -Ei 'arch' /etc/*release)" ]; then
+if grep -qEi 'arch' /etc/*release; then
     arch_install
     python_setup
 fi
 
-if [ "$(grep -Ei 'fedora|redhat' /etc/*release)" ]; then
+if grep -qEi 'fedora|redhat' /etc/*release; then
     echo "yum is currently not supported."
 fi
 
